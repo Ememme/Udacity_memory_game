@@ -1,0 +1,93 @@
+/* MAIN */
+
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: image(blackboard.jpg);
+}
+
+body {
+  background-image: url("../assets/svg/lisbon.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+img {
+  width: 130px;
+  height: 130px;
+  display: block;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+h1 {
+  font-family: 'Fredericka the Great', cursive;
+  color: #fff;
+  text-align: center;
+}
+
+li {
+
+}
+/*GAMEBOARD*/
+
+.deck {
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  max-width: 800px;
+}
+
+.deck li {
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.js-front {
+  width: 150px;
+  height: 150px;
+  border: 1px solid red;
+  background-image: url("../assets/svg/portugal.svg");
+}
+
+.js-back {
+  width: 150px;
+  height: 150px;
+  border: 1px solid red;
+  background-color: white;
+}
+
+.js-back figure {
+  width: 100%;
+  height: 100%;
+  border: 1px solid blue;
+  margin: 0;
+  padding: 0;
+}
