@@ -90,10 +90,37 @@ function createBoard(){
         img.setAttribute('src', shuffledBoard[i].image);
         // backCard.innerText(shuffledBoard[i].translation);
     }
+    var fragment = document.createDocumentFragment();
+
+    animals.forEach(function(animal) {
+        var translations = document.createElement('li');
+        var translationsFront = document.createElement('div');
+        var translationsBack = document.createElement('div');
+        var par = document.createElement('p');
+        gameboard.appendChild(translations);
+        translations.appendChild(translationsFront);
+        translationsFront.classList.add('js-front');
+        translations.appendChild(translationsBack);
+        translationsBack.classList.add('js-back');
+        translationsBack.appendChild(par);
+        par.textContent = animal.translation;
+        fragment.appendChild(translations);
+    });
+
+    gameboard.appendChild(fragment);
+    const toShuffle = document.querySelectorAll('div.js-back');
+    shuffle(toShuffle);
 };
 
 
+
 createBoard();
+// const toShuffle = document.querySelectorAll('div.js-back');
+// shuffle(toShuffle);
+
+console.log(toShuffle);
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
