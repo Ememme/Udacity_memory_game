@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 const gameboard= document.getElementById('gameboard');
+
 const animals = [
   { id: 1,
     image: 'assets/svg/001-lamb.svg',
@@ -67,68 +68,52 @@ function shuffle(array) {
   return array;
 }
 
-// Create a board
 
 function createBoard(){
-  const shuffledBoard = shuffle(animals);
+  const shuffledAnimals = shuffle(animals);
+  console.log(shuffledAnimals);
+// debugger;
+// console.log(animals);
+shuffledAnimals.forEach(function(animal) {
+  // Creating elements for images of animals
+  const imageContainer = document.createElement('li');
+  const imageHolder = document.createElement('div');
+  const img = document.createElement('img');
+  // Creating elements for portugese names
+  const translationContainer = document.createElement('li');
+  const translationHolder = document.createElement('div');
+  const translation = document.createElement('p');
 
-  for (let i = 0; i < shuffledBoard.length; i++) {
-        const cardContainer = document.createElement('li');
-        const frontCard = document.createElement('div');
-        const backCard = document.createElement('div');
-        const img = document.createElement('img');
-
-        gameboard.appendChild(cardContainer);
-        // This will create 'closed' cards with Portugese flag added in css.
-        cardContainer.appendChild(frontCard);
-        frontCard.classList.add('js-front');
-        // Adding cards with symbols and descriptions
-        cardContainer.appendChild(backCard);
-        backCard.classList.add('js-back');
-        backCard.appendChild(img);
-
-        img.setAttribute('src', shuffledBoard[i].image);
-        // backCard.innerText(shuffledBoard[i].translation);
-    }
-    var fragment = document.createDocumentFragment();
-
-    animals.forEach(function(animal) {
-        var translations = document.createElement('li');
-        var translationsFront = document.createElement('div');
-        var translationsBack = document.createElement('div');
-        var par = document.createElement('p');
-        gameboard.appendChild(translations);
-        translations.appendChild(translationsFront);
-        translationsFront.classList.add('js-front');
-        translations.appendChild(translationsBack);
-        translationsBack.classList.add('js-back');
-        translationsBack.appendChild(par);
-        par.textContent = animal.translation;
-        fragment.appendChild(translations);
-    });
-
-    gameboard.appendChild(fragment);
-    const toShuffle = document.querySelectorAll('div.js-back');
-    shuffle(toShuffle);
-};
+  // const cardFront = document.createElement('div');
 
 
 
+  gameboard.appendChild(imageContainer);
+  imageContainer.appendChild(imageHolder);
+  imageHolder.classList.add('js-back');
+  imageHolder.appendChild(img);
+  img.setAttribute('src', animal.image);
+
+  gameboard.appendChild(translationContainer);
+  translationContainer.appendChild(translationHolder);
+  translationHolder.classList.add('js-back');
+  translationHolder.appendChild(translation);
+  translation.textContent = animal.translation;
+  //
+  // const toShuffle = document.getElementsByClassName('js-back')
+  // console.log(toShuffle);
+  // const lis = document.querySelectorAll('.deck > li');
+  });
+}
 createBoard();
-// const toShuffle = document.querySelectorAll('div.js-back');
-// shuffle(toShuffle);
 
-console.log(toShuffle);
-
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+// /*
+//  * set up the event listener for a card. If a card is clicked:
+//  *  - display the card's symbol (put this functionality in another function that you call from this one)
+//  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+//  *  - if the list already has another card, check to see if the two cards match
+//  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+//  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+//  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+//  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+//  */
