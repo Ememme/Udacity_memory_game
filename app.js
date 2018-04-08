@@ -67,46 +67,65 @@ function shuffle(array) {
 
   return array;
 }
+// As vocabulary list is an array of objects, this function creates a shuffled array of both images and translations.
+function createShuffledArray() {
+    let properties = [];
+    for (var i = 0; i < animals.length; i++) {
+        var images = animals[i].image;
+        properties.push(images);
+        var translations = animals[i].translation;
+        properties.push(translations);
+      }
+  const shuffledArray = shuffle(properties);
+  return shuffledArray;
+}
 
 
-function createBoard(){
-  const shuffledAnimals = shuffle(animals);
-  console.log(shuffledAnimals);
-// debugger;
-// console.log(animals);
-shuffledAnimals.forEach(function(animal) {
-  // Creating elements for images of animals
-  const imageContainer = document.createElement('li');
-  const imageHolder = document.createElement('div');
-  const img = document.createElement('img');
-  // Creating elements for portugese names
-  const translationContainer = document.createElement('li');
-  const translationHolder = document.createElement('div');
-  const translation = document.createElement('p');
+function createCardFront(){
+  const shuffledArray =  createShuffledArray();
 
-  // const cardFront = document.createElement('div');
+  shuffledArray.forEach(function(property) {
+    const cardContainer = document.createElement('li');
+    const contentContainer = document.createElement('div');
+    const img = document.createElement('img');
+    const translation = document.createElement('p');
 
+    gameboard.appendChild(cardContainer);
+    cardContainer.appendChild(contentContainer);
+    contentContainer.classList.add('js-front');
 
-
-  gameboard.appendChild(imageContainer);
-  imageContainer.appendChild(imageHolder);
-  imageHolder.classList.add('js-back');
-  imageHolder.appendChild(img);
-  img.setAttribute('src', animal.image);
-
-  gameboard.appendChild(translationContainer);
-  translationContainer.appendChild(translationHolder);
-  translationHolder.classList.add('js-back');
-  translationHolder.appendChild(translation);
-  translation.textContent = animal.translation;
-  //
-  // const toShuffle = document.getElementsByClassName('js-back')
-  // console.log(toShuffle);
-  // const lis = document.querySelectorAll('.deck > li');
+    if (property.includes('svg')) {
+      contentContainer.appendChild(img);
+      img.setAttribute('src', property);
+    } else {
+      contentContainer.appendChild(translation);
+      translation.textContent = property;
+    }
   });
 }
-createBoard();
+// createCardFront();
 
+function createCardBack(){
+  const cardFronts = document.getElementsByClassName('js-front');
+  console.log(cardFronts);
+
+  for(var i = 0; i < cardFronts.length; i++) {
+    // const cardBackContainer = document.createElement('li');
+    const cardBack = document.createElement('div');
+    cardFronts[i].insertAdjacentElement('beforebegin', cardBack);
+    // cardBackContainer.appendChild(cardBack);
+    cardBack.classList.add('js-back');
+  }
+}
+
+// createCardBack();
+
+function createBoard(){
+  createCardFront();
+  createCardBack();
+}
+
+createBoard();
 // /*
 //  * set up the event listener for a card. If a card is clicked:
 //  *  - display the card's symbol (put this functionality in another function that you call from this one)
