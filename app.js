@@ -86,12 +86,16 @@ function createCardFront(){
 
   shuffledArray.forEach(function(property) {
     const cardContainer = document.createElement('li');
+    const cardWrapper = document.createElement('div');
     const contentContainer = document.createElement('div');
     const img = document.createElement('img');
     const translation = document.createElement('p');
 
     gameboard.appendChild(cardContainer);
-    cardContainer.appendChild(contentContainer);
+
+    cardContainer.appendChild(cardWrapper);
+    cardWrapper.classList.add('js-card-wrapper');
+    cardWrapper.appendChild(contentContainer);
     contentContainer.classList.add('js-front');
 
     if (property.includes('svg')) {
@@ -110,10 +114,8 @@ function createCardBack(){
   console.log(cardFronts);
 
   for(var i = 0; i < cardFronts.length; i++) {
-    // const cardBackContainer = document.createElement('li');
     const cardBack = document.createElement('div');
-    cardFronts[i].insertAdjacentElement('beforebegin', cardBack);
-    // cardBackContainer.appendChild(cardBack);
+    cardFronts[i].insertAdjacentElement('afterend', cardBack);
     cardBack.classList.add('js-back');
   }
 }
@@ -126,6 +128,47 @@ function createBoard(){
 }
 
 createBoard();
+
+
+function addEventListenerToDeck (){
+
+}
+
+document.querySelector('#gameboard').addEventListener('click', function (evt) {
+    if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
+        const clickedCard = event.target;
+        const parentEl = clickedCard.parentElement;
+        const flipperContainer = parentEl.parentElement;
+        console.log(parentEl);
+        parentEl.classList.add('js-flipper');
+        flipperContainer.classList.add('js-flip-container');
+          console.log(evt.target.classList);
+    }
+
+});
+function rotateCard(){
+
+}
+
+// function handleCardClick(event) {
+//     const clickedCard = event.target;
+//     const parentCard = clickedFigure.parentElement;
+//     parentCard.classList.add('flipped');
+//     const figureId = parentCard.getAttribute('id');
+//
+//     // stores flipped cards id's, max. 2
+//     flippedCards.push(figureId);
+//     firstCardIsFlipped = true;
+//
+//     // temporarily removes event listener from the first clicked card to prevent                                                                     dubleclick and incorrect match
+//     clickedFigure.removeEventListener('click', handleCardClick);
+//     setTimeout(function () {
+//         clickedFigure.addEventListener('click', handleCardClick);
+//     }, 600);
+
+/*TO D0
+1. styl do ratingu
+2. helper - lista slowek */
 // /*
 //  * set up the event listener for a card. If a card is clicked:
 //  *  - display the card's symbol (put this functionality in another function that you call from this one)
