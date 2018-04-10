@@ -87,9 +87,6 @@ li {
 }
 
 .deck > li {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: center; */
   padding-left: 20px;
   padding-bottom: 20px;
 }
@@ -102,20 +99,11 @@ img {
 
 }
 
-/*Card container  */
-
-.js-card-wrapper {
-  margin: 0;
-  padding: 0;
-  border: 1px solid green;
-
-}
 /*Front of the card  */
 .js-front {
   border: 1px solid red;
   background-color: #a6d8dd;
   position: relative;
-  top: 150px;
 }
 
 .js-front img {
@@ -135,16 +123,14 @@ img {
 .js-back {
   border: 1px solid red;
   background-image: url("../assets/svg/portugal.svg");
-  position: absolute;
-
+  position: relative;
+  top: -150px;
 }
 
 /*Styles for flipping a card  */
 .js-flip-container {
-  position: relative;
-  -webkit-perspective: 800px;
-  perspective: 800px;
-  border: 1px solid pink;
+  -webkit-perspective: 200px;
+  perspective: 200px;
 }
 
 .js-card-wrapper,
@@ -160,23 +146,23 @@ img {
 		-webkit-transform: rotateY(180deg);
 		transform: rotateY(180deg);
 	}
-  /* flip speed */
+
+/* flip speed */
   .js-flipper {
   	-webkit-transition: 0.6s;
   	transition: 0.6s;
   	-webkit-transform-style: preserve-3d;
   	transform-style: preserve-3d;
-
   }
 
-  /*  initially visible card */
+/*  initially visible card */
   .js-back {
   	z-index: 2;
   	-webkit-transform: rotateY(0deg);
   	transform: rotateY(0deg);
   }
 
-  /* initially hidden card*/
+/* initially hidden card*/
   .js-front {
   	-webkit-transform: rotateY(-180deg);
   	transform: rotateY(-180deg);
