@@ -115,7 +115,6 @@ function createCardFront(){
 
 function createCardBack(){
   const cardFronts = document.getElementsByClassName('js-front');
-
   for(var i = 0; i < cardFronts.length; i++) {
     const cardBack = document.createElement('div');
     cardFronts[i].insertAdjacentElement('afterend', cardBack);
@@ -128,6 +127,7 @@ function createCardBack(){
 function createBoard(){
   createCardFront();
   createCardBack();
+
 }
 
 createBoard();
@@ -137,13 +137,22 @@ function addEventListenerToDeck (){
   gameboard.addEventListener('click', rotateCard);
 }
 
-function rotateCard(evt) {
+document.querySelector('#gameboard').addEventListener('click', function (evt) {
+    if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
+        const clickedCard = event.target;
+        console.log(clickedCard);
+        const parentEl = clickedCard.parentElement;
+        const flipperContainer = parentEl.parentElement;
+        console.log(parentEl, 'parent');
+        parentEl.classList.add('js-flipper');
+        flipperContainer.classList.add('js-flip-container');
+          console.log(evt.target.classList);
 
-  if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
-
-      let clickedCard = event.target;
-      let parentEl = clickedCard.parentElement;
-      let flipperContainer = parentEl.parentElement;
+        let clickedCards = [];
+        clickedCards.push(clickedCard);
+        console.log(clickedCards);
+        getCardAttributes();
+    }
 
       parentEl.classList.add('js-flipper');
       flipperContainer.classList.add('js-flip-container');
@@ -157,9 +166,31 @@ function rotateCard(evt) {
   }
 }
 
-addEventListenerToDeck();
+// Pobieranie wartości z klikniętych kart
+function getCardAttributes(){
+  const clickedCard = event.target;
+  const cardGetValue = clickedCard.children[0];
+  console.log(cardGetValue);
+  // const cardValue = cardGetValue[0].innerHTML;
+  // const src = cardGetValue[0].src;
+  //
 
-
+}
+// function handleCardClick(event) {
+//     const clickedCard = event.target;
+//     const parentCard = clickedFigure.parentElement;
+//     parentCard.classList.add('flipped');
+//     const figureId = parentCard.getAttribute('id');
+//
+//     // stores flipped cards id's, max. 2
+//     flippedCards.push(figureId);
+//     firstCardIsFlipped = true;
+//
+//     // temporarily removes event listener from the first clicked card to prevent                                                                     dubleclick and incorrect match
+//     clickedFigure.removeEventListener('click', handleCardClick);
+//     setTimeout(function () {
+//         clickedFigure.addEventListener('click', handleCardClick);
+//     }, 600);
 
 /*TO D0
 1. styl do ratingu
