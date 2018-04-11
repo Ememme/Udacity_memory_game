@@ -45,6 +45,10 @@ const animals = [
     translation: 'frango'
   }
 ];
+
+// If the counter === 2, it is not possible to rotate more cards as eventListener function is temporarily removed;
+
+let flippedCardsCounter = 0;
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -111,7 +115,6 @@ function createCardFront(){
 
 function createCardBack(){
   const cardFronts = document.getElementsByClassName('js-front');
-  console.log(cardFronts);
 
   for(var i = 0; i < cardFronts.length; i++) {
     const cardBack = document.createElement('div');
@@ -131,40 +134,32 @@ createBoard();
 
 
 function addEventListenerToDeck (){
-
+  gameboard.addEventListener('click', rotateCard);
 }
 
-document.querySelector('#gameboard').addEventListener('click', function (evt) {
-    if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
-        const clickedCard = event.target;
-        const parentEl = clickedCard.parentElement;
-        const flipperContainer = parentEl.parentElement;
-        console.log(parentEl);
-        parentEl.classList.add('js-flipper');
-        flipperContainer.classList.add('js-flip-container');
-          console.log(evt.target.classList);
-    }
+function rotateCard(evt) {
 
-});
-function rotateCard(){
+  if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
 
+      let clickedCard = event.target;
+      let parentEl = clickedCard.parentElement;
+      let flipperContainer = parentEl.parentElement;
+
+      parentEl.classList.add('js-flipper');
+      flipperContainer.classList.add('js-flip-container');
+
+      flippedCardsCounter ++;
+
+      // If two cards are rotated, eventListener is removed.
+      if (flippedCardsCounter === 2) {
+        gameboard.removeEventListener('click', rotateCard);
+      }
+  }
 }
 
-// function handleCardClick(event) {
-//     const clickedCard = event.target;
-//     const parentCard = clickedFigure.parentElement;
-//     parentCard.classList.add('flipped');
-//     const figureId = parentCard.getAttribute('id');
-//
-//     // stores flipped cards id's, max. 2
-//     flippedCards.push(figureId);
-//     firstCardIsFlipped = true;
-//
-//     // temporarily removes event listener from the first clicked card to prevent                                                                     dubleclick and incorrect match
-//     clickedFigure.removeEventListener('click', handleCardClick);
-//     setTimeout(function () {
-//         clickedFigure.addEventListener('click', handleCardClick);
-//     }, 600);
+addEventListenerToDeck();
+
+
 
 /*TO D0
 1. styl do ratingu
