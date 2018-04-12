@@ -87,8 +87,7 @@ li {
 }
 
 .deck > li {
-  padding-left: 20px;
-  padding-bottom: 20px;
+  margin: 10px;
 }
 
 img {
