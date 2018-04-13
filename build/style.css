@@ -141,13 +141,13 @@ img {
 }
 
 /* flip the pane when clicked */
-	.js-flip-container .js-flipper {
+	.js-flip-container .js-flipped {
 		-webkit-transform: rotateY(180deg);
 		transform: rotateY(180deg);
 	}
 
 /* flip speed */
-  .js-flipper {
+  .js-flipped {
   	-webkit-transition: 0.6s;
   	transition: 0.6s;
   	-webkit-transform-style: preserve-3d;
@@ -166,3 +166,35 @@ img {
   	-webkit-transform: rotateY(-180deg);
   	transform: rotateY(-180deg);
   }
+
+/* matching card styles */
+
+li.js-flip-container.js-match {
+  animation-name: fadeOut;
+  animation-duration: 1000s;
+}
+  .js-match > div {
+    background-color: #c9dba8;
+    /* animation-name: fadeOut;
+    animation-duration: 1000s; */
+
+    /*? How to make it last throughut the game?  */
+  }
+
+
+
+
+
+  @keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* .fadeOut {
+  animation-name: fadeOut;
+} */
