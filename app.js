@@ -1,60 +1,71 @@
-/*
- * Create a list that holds all of your cards
- */
-const gameboard= document.getElementById('gameboard');
 
-const animals = [
-  { id: 1,
+const animals = [{
+    id: 1,
     image: 'assets/svg/001-lamb.svg',
     translation: 'cordeiro'
   },
-  { id: 2,
+  {
+    id: 2,
     image: 'assets/svg/002-fish.svg',
     translation: 'peixe'
   },
-  { id: 3,
+  {
+    id: 3,
     image: 'assets/svg/003-mouse.svg',
     translation: 'rato'
   },
-  { id: 4,
+  {
+    id: 4,
     image: 'assets/svg/004-bird.svg',
     translation: 'pássaro'
   },
-  { id: 5,
+  {
+    id: 5,
     image: 'assets/svg/005-pig.svg',
     translation: 'porco'
   },
-  { id: 6,
+  {
+    id: 6,
     image: 'assets/svg/006-cow.svg',
     translation: 'vaca'
   },
-  { id: 7,
+  {
+    id: 7,
     image: 'assets/svg/007-horse.svg',
     translation: 'cavalo'
   },
-  { id: 8,
+  {
+    id: 8,
     image: 'assets/svg/008-cat.svg',
     translation: 'gato'
   },
-  { id: 9,
+  {
+    id: 9,
     image: 'assets/svg/009-dog.svg',
     translation: 'cão'
   },
-  { id: 10,
+  {
+    id: 10,
     image: 'assets/svg/010-chicken.svg',
     translation: 'frango'
   }
 ];
-
+const gameboard = document.getElementById('gameboard');
+// Stores 'li' elements of clicked card (parent element to facilitate flipping of a card)
+let flippedCards = [];
 // If the counter === 2, it is not possible to rotate more cards as eventListener function is temporarily removed;
-
 let flippedCardsCounter = 0;
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+// used for initalizing timer
+let firstCardflipped = false;
+// 2 flipped cards === 1 move;
+let movesCounter = 0;
+// Stores matching cards
+let matchedCards = [];
+// Stores textContent or img src of a clicked card
+let cardValues = [];
+// Stores id of a clicked card as provided in original animal array
+let checkedCardsId = [];
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -73,20 +84,21 @@ function shuffle(array) {
 }
 // As vocabulary list is an array of objects, this function creates a shuffled array of both images and translations.
 function createShuffledArray() {
-    let properties = [];
-    for (var i = 0; i < animals.length; i++) {
-        var images = animals[i].image;
-        properties.push(images);
-        var translations = animals[i].translation;
-        properties.push(translations);
-      }
+  let properties = [];
+  for (var i = 0; i < animals.length; i++) {
+    var images = animals[i].image;
+    properties.push(images);
+    var translations = animals[i].translation;
+    properties.push(translations);
+  }
   const shuffledArray = shuffle(properties);
+  console.table(shuffledArray);
   return shuffledArray;
 }
 
 
-function createCardFront(){
-  const shuffledArray =  createShuffledArray();
+function createCardFront() {
+  const shuffledArray = createShuffledArray();
 
   shuffledArray.forEach(function(property) {
     const cardContainer = document.createElement('li');
@@ -95,9 +107,11 @@ function createCardFront(){
     const img = document.createElement('img');
     const translation = document.createElement('p');
 
+
     gameboard.appendChild(cardContainer);
 
     cardContainer.appendChild(cardWrapper);
+    cardContainer.classList.add('js-flip-container');
     cardWrapper.classList.add('js-card-wrapper');
     cardWrapper.appendChild(contentContainer);
     contentContainer.classList.add('js-front');
@@ -111,21 +125,19 @@ function createCardFront(){
     }
   });
 }
-// createCardFront();
 
-function createCardBack(){
+function createCardBack() {
   const cardFronts = document.getElementsByClassName('js-front');
 
-  for(var i = 0; i < cardFronts.length; i++) {
+  for (var i = 0; i < cardFronts.length; i++) {
     const cardBack = document.createElement('div');
     cardFronts[i].insertAdjacentElement('afterend', cardBack);
     cardBack.classList.add('js-back');
   }
 }
 
-// createCardBack();
 
-function createBoard(){
+function createBoard() {
   createCardFront();
   createCardBack();
 }
@@ -133,34 +145,91 @@ function createBoard(){
 createBoard();
 
 
-function addEventListenerToDeck (){
+function addEventListenerToDeck() {
   gameboard.addEventListener('click', rotateCard);
-}
-
-function rotateCard(evt) {
-
-  if (evt.target.nodeName === 'DIV') {  // ← verifies target is desired element
-
-      let clickedCard = event.target;
-      let parentEl = clickedCard.parentElement;
-      let flipperContainer = parentEl.parentElement;
-
-      parentEl.classList.add('js-flipper');
-      flipperContainer.classList.add('js-flip-container');
-
-      flippedCardsCounter ++;
-
-      // If two cards are rotated, eventListener is removed.
-      if (flippedCardsCounter === 2) {
-        gameboard.removeEventListener('click', rotateCard);
-      }
-  }
 }
 
 addEventListenerToDeck();
 
 
+function rotateCard(evt) {
 
+  if (evt.target.nodeName === 'DIV') { // ← verifies target is desired element
+
+    let clickedCard = event.target;
+    let parentEl = clickedCard.parentElement;
+    let flipperContainer = parentEl.parentElement;
+    let siblingEl = clickedCard.previousElementSibling;
+
+    firstCardflipped = true;
+
+    parentEl.classList.add('js-flipped');
+
+    flippedCards.push(flipperContainer);
+
+    flippedCardsCounter++;
+
+    if (siblingEl.textContent !== "") {
+      cardValues.push(siblingEl.textContent);
+    } else {
+      // Extracting file name
+      let string = siblingEl.innerHTML;
+      let imgSrc = string.substring(10, string.length - 2);
+      cardValues.push(imgSrc);
+    }
+
+
+    // If two cards are rotated, eventListener is removed.
+    if (flippedCardsCounter === 2) {
+      movesCounter++;
+      console.log(movesCounter);
+      gameboard.removeEventListener('click', rotateCard);
+      getProperties();
+      checkIfCardsMatch(getProperties);
+    }
+
+    if (checkIfCardsMatch(getProperties)) {
+      for(var i = 0; i < flippedCards.length; i++) {
+        flippedCards[i].classList.add('js-match');
+        flippedCards[i].children[0].classList.add('js-match');
+      }
+
+    // } else {
+    //   for(var i = 0; i < flippedCards.length; i++) {
+    //     flippedCards[i].classList.remove('js-flipped');
+    //     flippedCards[i].children[0].classList.remove('js-flipped');
+    //     addEventListenerToDeck();
+    //   }
+    flippedCards = [];
+    }
+  }
+}
+
+let getProperties = function check() {
+
+  for (var obj of animals)
+    if (checkedCardsId.length <= 2) {
+      if (cardValues.includes(obj.image)) {
+        checkedCardsId.push(obj.id);
+      }
+
+      if (cardValues.includes(obj.translation)) {
+        checkedCardsId.push(obj.id);
+      }
+    }
+  return checkedCardsId;
+};
+
+
+function checkIfCardsMatch(getProperties) {
+  console.log(checkedCardsId);
+  if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
+    matchedCards.push(cardValues);
+    return true;
+  } else {
+    return false;
+  }
+}
 /*TO D0
 1. styl do ratingu
 2. helper - lista slowek */
