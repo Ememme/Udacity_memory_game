@@ -57,7 +57,7 @@ let flippedCards = [];
 let flippedCardsCounter = 0;
 // used for initalizing timer
 let firstCardflipped = false;
-// 2 flipped cards === 1 move;
+// // How many pairs of cards were flipped before completing game
 let movesCounter = 0;
 // Stores matching cards
 let matchedCards = [];
@@ -65,7 +65,13 @@ let matchedCards = [];
 let cardValues = [];
 // Stores id of a clicked card as provided in original animal array
 let checkedCardsId = [];
+// Flag for gameboard
+let isGameOver = false;
+// timer
+let timer = document.getElementsByClassName('time')[0].innerHTML;
 
+let seconds = 0;
+let minutes = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -152,9 +158,11 @@ function addEventListenerToDeck() {
 addEventListenerToDeck();
 
 
+
+
 function rotateCard(evt) {
 
-  if (evt.target.nodeName === 'DIV') { // ← verifies target is desired element
+  if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')){ // ← verifies target is div.js-back
 
     let clickedCard = event.target;
     let parentEl = clickedCard.parentElement;
@@ -162,48 +170,61 @@ function rotateCard(evt) {
     let siblingEl = clickedCard.previousElementSibling;
 
     firstCardflipped = true;
-
+    flippedCardsCounter ++;
     parentEl.classList.add('js-flipped');
 
-    flippedCards.push(flipperContainer);
-
-    flippedCardsCounter++;
-
-    if (siblingEl.textContent !== "") {
-      cardValues.push(siblingEl.textContent);
-    } else {
-      // Extracting file name
-      let string = siblingEl.innerHTML;
-      let imgSrc = string.substring(10, string.length - 2);
-      cardValues.push(imgSrc);
-    }
+    // First - gathering values of clicked cards
+    if(flippedCards.length < 2) {
 
 
-    // If two cards are rotated, eventListener is removed.
-    if (flippedCardsCounter === 2) {
+      flippedCards.push(flipperContainer);
+
+
+      if (siblingEl.textContent !== "") {
+        cardValues.push(siblingEl.textContent);
+      } else {
+        // Extracting file name
+        let string = siblingEl.innerHTML;
+        let imgSrc = string.substring(10, string.length - 2);
+        cardValues.push(imgSrc);
+      }
+
+
+
+    // If two cards are flipped:
+
+    } else if (flippedCards.length === 2) {
+      console.log(flippedCards);
       movesCounter++;
       console.log(movesCounter);
       gameboard.removeEventListener('click', rotateCard);
-      getProperties();
-      checkIfCardsMatch(getProperties);
-    }
 
-    if (checkIfCardsMatch(getProperties)) {
-      for(var i = 0; i < flippedCards.length; i++) {
-        flippedCards[i].classList.add('js-match');
-        flippedCards[i].children[0].classList.add('js-match');
+          checkIfCardsMatch(getProperties);
+          if (checkIfCardsMatch(getProperties())) {
+            matchedCards.push(cardValues);
+            for(var i = 0; i < flippedCards.length; i++) {
+              flippedCards[i].children[0].classList.remove('js-flipped');
+              flippedCards[i].children[0].classList.add('js-match');
+            }
+          } else {
+            for(var i = 0; i < flippedCards.length; i++) {
+              flippedCards[i].children[0].classList.remove('js-flipped');
+              flippedCards[i].classList.remove('js-flipped');
+            }
+
+          }
+          flippedCards = [];
+          checkedCardsId = [];
+          cardValues = [];
+
       }
 
-    // } else {
-    //   for(var i = 0; i < flippedCards.length; i++) {
-    //     flippedCards[i].classList.remove('js-flipped');
-    //     flippedCards[i].children[0].classList.remove('js-flipped');
-    //     addEventListenerToDeck();
-    //   }
-    flippedCards = [];
     }
-  }
+    console.log(movesCounter);
+    addEventListenerToDeck();
 }
+
+
 
 let getProperties = function check() {
 
