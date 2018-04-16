@@ -66,7 +66,7 @@ let cardValues = [];
 // Stores id of a clicked card as provided in original animal array
 let checkedCardsId = [];
 // Flag for gameboard
-let isGameOver = false;
+let isGameOverFlag = false;
 // timer
 let timer = document.getElementsByClassName('time')[0].innerHTML;
 
@@ -220,7 +220,7 @@ function rotateCard(evt) {
       addEventListenerToDeck();
     }
     console.log(movesCounter);
-
+    isGameOver();
 }
 
 
@@ -246,35 +246,35 @@ function getCardId(){
   return checkedCardsId;
 }
 
+function isGameOver() {
+  if (matchedCards.length === 10) {
+
+    isGameOverFlag = true;
+      console.log("Game over");
+  }
+}
 
 
-//
-// let getProperties = function check() {
-//
-//   for (var obj of animals)
-//     if (checkedCardsId.length <= 2) {
-//       if (cardValues.includes(obj.image)) {
-//         checkedCardsId.push(obj.id);
-//       }
-//
-//       if (cardValues.includes(obj.translation)) {
-//         checkedCardsId.push(obj.id);
-//       }
-//     }
-//   return checkedCardsId;
-// };
 
 
 function checkIfCardsMatch(checkCardId) {
   console.log(checkedCardsId);
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
-    matchedCards.push(cardValues);
+    // matchedCards.push(cardValues);
     return true;
   } else {
     return false;
   }
 }
 /*TO D0
+// 1. Logika - isGameOver
+// TIMER
+// Gwiazdki od ilosci ruchow
+
+
+
+
+
 1. styl do ratingu
 2. helper - lista slowek */
 // /*
