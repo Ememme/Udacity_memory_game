@@ -18,7 +18,6 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-image: image(blackboard.jpg);
 }
 
 body {
@@ -169,32 +168,7 @@ img {
 
 /* matching card styles */
 
-li.js-flip-container.js-match {
-  animation-name: fadeOut;
-  animation-duration: 1000s;
-}
   .js-match > div {
     background-color: #c9dba8;
-    /* animation-name: fadeOut;
-    animation-duration: 1000s; */
-
-    /*? How to make it last throughut the game?  */
+    visibility: hidden;
   }
-
-
-
-
-
-  @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-/* .fadeOut {
-  animation-name: fadeOut;
-} */
