@@ -161,7 +161,7 @@ addEventListenerToDeck();
 
 
 function rotateCard(evt) {
-
+  // debugger;
   if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')){ // ← verifies target is div.js-back
 
     let clickedCard = event.target;
@@ -169,16 +169,13 @@ function rotateCard(evt) {
     let flipperContainer = parentEl.parentElement;
     let siblingEl = clickedCard.previousElementSibling;
 
+
+    parentEl.classList.add('js-flipped');
     firstCardflipped = true;
     flippedCardsCounter ++;
-    parentEl.classList.add('js-flipped');
-
     // First - gathering values of clicked cards
-    if(flippedCards.length < 2) {
-
 
       flippedCards.push(flipperContainer);
-
 
       if (siblingEl.textContent !== "") {
         cardValues.push(siblingEl.textContent);
@@ -187,49 +184,57 @@ function rotateCard(evt) {
         let string = siblingEl.innerHTML;
         let imgSrc = string.substring(10, string.length - 2);
         cardValues.push(imgSrc);
-      }
 
+      }
 
 
     // If two cards are flipped:
 
-    } else if (flippedCards.length === 2) {
+      if (flippedCards.length === 2) {
       console.log(flippedCards);
       movesCounter++;
       console.log(movesCounter);
+      // getCardId();
       gameboard.removeEventListener('click', rotateCard);
 
-          checkIfCardsMatch(getProperties);
-          if (checkIfCardsMatch(getProperties())) {
-            matchedCards.push(cardValues);
-            for(var i = 0; i < flippedCards.length; i++) {
-              flippedCards[i].children[0].classList.remove('js-flipped');
+          // checkedCardsId2();
+          if ((checkIfCardsMatch(getCardId()) === true)) {
+
+            for(var i = 0; i < flippedCards.length; ++i) {
+              // flippedCards[i].children[0].classList.remove('js-flipped');
               flippedCards[i].children[0].classList.add('js-match');
             }
-          } else {
-            for(var i = 0; i < flippedCards.length; i++) {
+            matchedCards.push(checkedCardsId);
+
+          }
+
+          setTimeout(function(){
+            for(var i = 0; i < flippedCards.length; ++i) {
               flippedCards[i].children[0].classList.remove('js-flipped');
               flippedCards[i].classList.remove('js-flipped');
             }
+          }, 3000);
 
-          }
-          flippedCards = [];
-          checkedCardsId = [];
-          cardValues = [];
-
+          setTimeout(resetArrays, 3500);
       }
-
+      addEventListenerToDeck();
     }
     console.log(movesCounter);
-    addEventListenerToDeck();
+
 }
 
 
 
-let getProperties = function check() {
+function resetArrays(){
+  flippedCards = [];
+  checkedCardsId = [];
+  cardValues = [];
+}
 
+function getCardId(){
+  console.log(cardValues);
   for (var obj of animals)
-    if (checkedCardsId.length <= 2) {
+    if (checkedCardsId.length < 2) {
       if (cardValues.includes(obj.image)) {
         checkedCardsId.push(obj.id);
       }
@@ -239,10 +244,28 @@ let getProperties = function check() {
       }
     }
   return checkedCardsId;
-};
+}
 
 
-function checkIfCardsMatch(getProperties) {
+
+//
+// let getProperties = function check() {
+//
+//   for (var obj of animals)
+//     if (checkedCardsId.length <= 2) {
+//       if (cardValues.includes(obj.image)) {
+//         checkedCardsId.push(obj.id);
+//       }
+//
+//       if (cardValues.includes(obj.translation)) {
+//         checkedCardsId.push(obj.id);
+//       }
+//     }
+//   return checkedCardsId;
+// };
+
+
+function checkIfCardsMatch(checkCardId) {
   console.log(checkedCardsId);
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
     matchedCards.push(cardValues);
