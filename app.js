@@ -57,7 +57,7 @@ let flippedCards = [];
 let flippedCardsCounter = 0;
 // used for initalizing timer
 let firstCardflipped = false;
-// 2 flipped cards === 1 move;
+// // How many pairs of cards were flipped before completing game
 let movesCounter = 0;
 // Stores matching cards
 let matchedCards = [];
@@ -65,7 +65,13 @@ let matchedCards = [];
 let cardValues = [];
 // Stores id of a clicked card as provided in original animal array
 let checkedCardsId = [];
+// Flag for gameboard
+let isGameOverFlag = false;
+// timer
+let timer = document.getElementsByClassName('time')[0].innerHTML;
 
+let seconds = 0;
+let minutes = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -152,63 +158,85 @@ function addEventListenerToDeck() {
 addEventListenerToDeck();
 
 
-function rotateCard(evt) {
 
-  if (evt.target.nodeName === 'DIV') { // ← verifies target is desired element
+
+function rotateCard(evt) {
+  // debugger;
+  if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')){ // ← verifies target is div.js-back
 
     let clickedCard = event.target;
     let parentEl = clickedCard.parentElement;
     let flipperContainer = parentEl.parentElement;
     let siblingEl = clickedCard.previousElementSibling;
 
-    firstCardflipped = true;
 
     parentEl.classList.add('js-flipped');
+    firstCardflipped = true;
+    flippedCardsCounter ++;
+    // First - gathering values of clicked cards
 
-    flippedCards.push(flipperContainer);
+      flippedCards.push(flipperContainer);
 
-    flippedCardsCounter++;
+      if (siblingEl.textContent !== "") {
+        cardValues.push(siblingEl.textContent);
+      } else {
+        // Extracting file name
+        let string = siblingEl.innerHTML;
+        let imgSrc = string.substring(10, string.length - 2);
+        cardValues.push(imgSrc);
 
-    if (siblingEl.textContent !== "") {
-      cardValues.push(siblingEl.textContent);
-    } else {
-      // Extracting file name
-      let string = siblingEl.innerHTML;
-      let imgSrc = string.substring(10, string.length - 2);
-      cardValues.push(imgSrc);
-    }
-
-
-    // If two cards are rotated, eventListener is removed.
-    if (flippedCardsCounter === 2) {
-      movesCounter++;
-      console.log(movesCounter);
-      gameboard.removeEventListener('click', rotateCard);
-      getProperties();
-      checkIfCardsMatch(getProperties);
-    }
-
-    if (checkIfCardsMatch(getProperties)) {
-      for(var i = 0; i < flippedCards.length; i++) {
-        flippedCards[i].classList.add('js-match');
-        flippedCards[i].children[0].classList.add('js-match');
       }
 
-    // } else {
-    //   for(var i = 0; i < flippedCards.length; i++) {
-    //     flippedCards[i].classList.remove('js-flipped');
-    //     flippedCards[i].children[0].classList.remove('js-flipped');
-    //     addEventListenerToDeck();
-    //   }
-    flippedCards = [];
+
+    // If two cards are flipped:
+
+      if (flippedCards.length === 2) {
+      console.log(flippedCards);
+      movesCounter++;
+      console.log(movesCounter);
+      // getCardId();
+      gameboard.removeEventListener('click', rotateCard);
+
+          // checkedCardsId2();
+          if ((checkIfCardsMatch(getCardId()) === true)) {
+
+            for(var i = 0; i < flippedCards.length; ++i) {
+              // flippedCards[i].children[0].classList.remove('js-flipped');
+              flippedCards[i].children[0].classList.add('js-match');
+            }
+            matchedCards.push(checkedCardsId);
+
+          }
+
+          
+
+          setTimeout(function(){
+            for(var i = 0; i < flippedCards.length; ++i) {
+              flippedCards[i].children[0].classList.remove('js-flipped');
+              flippedCards[i].classList.remove('js-flipped');
+            }
+          }, 2000);
+
+          setTimeout(resetArrays, 2100);
+      }
+      addEventListenerToDeck();
     }
-  }
+    console.log(movesCounter);
+    isGameOver();
 }
 
-let getProperties = function check() {
 
+
+function resetArrays(){
+  flippedCards = [];
+  checkedCardsId = [];
+  cardValues = [];
+}
+
+function getCardId(){
+  console.log(cardValues);
   for (var obj of animals)
-    if (checkedCardsId.length <= 2) {
+    if (checkedCardsId.length < 2) {
       if (cardValues.includes(obj.image)) {
         checkedCardsId.push(obj.id);
       }
@@ -218,19 +246,37 @@ let getProperties = function check() {
       }
     }
   return checkedCardsId;
-};
+}
+
+function isGameOver() {
+  if (matchedCards.length === 10) {
+
+    isGameOverFlag = true;
+      console.log("Game over");
+  }
+}
 
 
-function checkIfCardsMatch(getProperties) {
+
+
+function checkIfCardsMatch(checkCardId) {
   console.log(checkedCardsId);
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
-    matchedCards.push(cardValues);
+    // matchedCards.push(cardValues);
     return true;
   } else {
     return false;
   }
 }
 /*TO D0
+// 1. Logika - isGameOver
+// TIMER
+// Gwiazdki od ilosci ruchow
+
+
+
+
+
 1. styl do ratingu
 2. helper - lista slowek */
 // /*
