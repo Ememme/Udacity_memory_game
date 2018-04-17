@@ -68,10 +68,11 @@ let checkedCardsId = [];
 // Flag for gameboard
 let isGameOverFlag = false;
 // timer
-let timer = document.getElementsByClassName('time')[0].innerHTML;
-
-let seconds = 0;
-let minutes = 0;
+let gameTimer = document.querySelector(".timer");
+console.log(gameTimer);
+//
+// let seconds = 0;
+// let minutes = 0;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -172,6 +173,7 @@ function rotateCard(evt) {
 
     parentEl.classList.add('js-flipped');
     firstCardflipped = true;
+    startTimer();
     flippedCardsCounter ++;
     // First - gathering values of clicked cards
 
@@ -208,7 +210,7 @@ function rotateCard(evt) {
 
           }
 
-          
+
 
           setTimeout(function(){
             for(var i = 0; i < flippedCards.length; ++i) {
@@ -268,6 +270,29 @@ function checkIfCardsMatch(checkCardId) {
     return false;
   }
 }
+
+
+// TIMER
+
+let second = 0;
+let minute = 0;
+let interval;
+function startTimer(){
+    interval = setInterval(function(){
+        // gameTimer.innerHTML = minute+" mins "+second+" secs";
+        gameTimer.innerHTML = `${minute} mins: ${second} secs`;
+        second++;
+        if(second == 60){
+            minute++;
+            second=0;
+        }
+        // if(minute == 60){
+        //     hour++;
+        //     minute = 0;
+        // }
+    }, 1000);
+}
+
 /*TO D0
 // 1. Logika - isGameOver
 // TIMER
