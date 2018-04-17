@@ -208,14 +208,16 @@ function rotateCard(evt) {
 
           }
 
+          
+
           setTimeout(function(){
             for(var i = 0; i < flippedCards.length; ++i) {
               flippedCards[i].children[0].classList.remove('js-flipped');
               flippedCards[i].classList.remove('js-flipped');
             }
-          }, 3000);
+          }, 2000);
 
-          setTimeout(resetArrays, 3500);
+          setTimeout(resetArrays, 2100);
       }
       addEventListenerToDeck();
     }
