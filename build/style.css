@@ -5,19 +5,16 @@ html {
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   -webkit-box-sizing: inherit;
   box-sizing: inherit;
 }
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -30,36 +27,31 @@ ul {
   list-style-type: none;
 }
 
-
-
-
 h1 {
   font-family: 'Fredericka the Great', cursive;
   color: #fff;
   text-align: center;
 }
 
-li {
-
-}
+li {}
 
 /* SCORE PANEL with TIMER and STAR RATING */
+
 .score-panel {
-    margin-top: -35px;
-    text-align: center;
-    color: #fff;
-    font-size: 2em;
+  margin-top: -35px;
+  text-align: center;
+  color: #fff;
+  font-size: 2em;
 }
 
 .score-panel .rating {
-    display: inline-block;
+  display: inline-block;
 }
 
 .score-panel .rating li {
-    display: inline-block;
-    padding: 10px;
+  display: inline-block;
+  padding: 10px;
 }
-
 
 /*GAMEBOARD*/
 
@@ -84,10 +76,9 @@ li {
   -ms-flex-align: center;
   align-items: center;
   position: relative;
-
 }
 
-.deck > li {
+.deck>li {
   margin: 10px;
 }
 
@@ -96,10 +87,10 @@ img {
   height: 100%;
   display: block;
   margin: 0 auto;
-
 }
 
 /*Front of the card  */
+
 .js-front {
   border: 1px solid red;
   background-color: #a6d8dd;
@@ -114,12 +105,13 @@ img {
   padding: 0;
 }
 
-.js-front > p {
+.js-front>p {
   line-height: 130px;
   text-align: center;
 }
 
 /*Back of the card  */
+
 .js-back {
   border: 1px solid red;
   background-image: url("../assets/svg/portugal.svg");
@@ -128,49 +120,124 @@ img {
 }
 
 /*Styles for flipping a card  */
+
 .js-flip-container {
   -webkit-perspective: 200px;
   perspective: 200px;
 }
 
-.js-card-wrapper,
-.js-flip-container,
-.js-back,
-.js-front {
+.js-card-wrapper, .js-flip-container, .js-back, .js-front {
   width: 120px;
   height: 120px;
 }
 
 /* flip the pane when clicked */
-	.js-flip-container .js-flipped {
-		-webkit-transform: rotateY(180deg);
-		transform: rotateY(180deg);
-	}
+
+.js-flip-container .js-flipped {
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
 
 /* flip speed */
-  .js-flipped {
-  	-webkit-transition: 0.6s;
-  	transition: 0.6s;
-  	-webkit-transform-style: preserve-3d;
-  	transform-style: preserve-3d;
-  }
+
+.js-flipped {
+  -webkit-transition: 0.6s;
+  transition: 0.6s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
 
 /*  initially visible card */
-  .js-back {
-  	z-index: 2;
-  	-webkit-transform: rotateY(0deg);
-  	transform: rotateY(0deg);
-  }
+
+.js-back {
+  z-index: 2;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
 
 /* initially hidden card*/
-  .js-front {
-  	-webkit-transform: rotateY(-180deg);
-  	transform: rotateY(-180deg);
-  }
+
+.js-front {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
 
 /* matching card styles */
 
-  .js-match > div {
-    background-color: #c9dba8;
-    visibility: hidden;
-  }
+.js-match>div {
+  background-color: #c9dba8;
+  visibility: hidden;
+}
+
+/* POP-UP MODAL */
+
+#popup-window {
+  display: none;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(27, 110, 128, 0.9);
+  color: #175e6d;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  /* transition: all 200ms; */
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.close-modal:hover {
+  color: #c9dba8;
+}
+
+.modal-content {
+  margin: 15% auto;
+  padding: 50px;
+  width: 45%;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #1fb9d6;
+  text-align: center;
+}
+
+.reload-button {
+  margin-bottom: 15px;
+  /* padding: 12px; */
+  width: 150px;
+  height: 30px;
+  background-color: rgba(58, 210, 224, 0.7);
+  border-radius: 3px;
+}
+
+.reload-button:hover {
+  background-color: #1890a6;
+}
+
+.reload-button:active {
+  background-color: #1890a6;
+  -webkit-box-shadow: 0 1px #ddd;
+  box-shadow: 0 1px #ddd;
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);
+}
+
+.modal-content span {
+  margin-left: 30px;
+}
+
+.modal-content .fa-star {
+  padding: 0 5px;
+  font-size: 1em;
+}
+
+h3 {
+  color: rgba(58, 210, 224, 0.7);
+}
