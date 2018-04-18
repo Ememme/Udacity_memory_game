@@ -45,6 +45,7 @@ li {
 
 /* SCORE PANEL with TIMER and STAR RATING */
 .score-panel {
+    margin-top: -35px;
     text-align: center;
     color: #fff;
     font-size: 2em;
@@ -64,9 +65,10 @@ li {
 
 .deck {
   margin: 0 auto;
-  width: 780px;
-  max-width: 800px;
-  min-height: 800px;
+  width: 85vw;
+  /* width: 640px; */
+  max-width: 640px;
+  min-height: 640px;
   background: rgba(58, 210, 224, 0.7);
   padding: 20px;
   border-radius: 15px;
@@ -105,8 +107,8 @@ img {
 }
 
 .js-front img {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   border: 1px solid blue;
   margin: 10px;
   padding: 0;
@@ -122,7 +124,7 @@ img {
   border: 1px solid red;
   background-image: url("../assets/svg/portugal.svg");
   position: relative;
-  top: -150px;
+  top: -120px;
 }
 
 /*Styles for flipping a card  */
@@ -135,8 +137,8 @@ img {
 .js-flip-container,
 .js-back,
 .js-front {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
 }
 
 /* flip the pane when clicked */
