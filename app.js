@@ -1,4 +1,3 @@
-
 const animals = [{
     id: 1,
     image: 'assets/svg/001-lamb.svg',
@@ -69,10 +68,13 @@ let checkedCardsId = [];
 let isGameOverFlag = false;
 // timer
 let gameTimer = document.querySelector(".timer");
+const stars = document.querySelectorAll(".fa-star");
+let movesDisplay = document.querySelector(".moves");
+
+
 console.log(gameTimer);
-//
-// let seconds = 0;
-// let minutes = 0;
+console.log(movesDisplay);
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -163,7 +165,7 @@ addEventListenerToDeck();
 
 function rotateCard(evt) {
   // debugger;
-  if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')){ // ← verifies target is div.js-back
+  if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')) { // ← verifies target is div.js-back
 
     let clickedCard = event.target;
     let parentEl = clickedCard.parentElement;
@@ -174,68 +176,69 @@ function rotateCard(evt) {
     parentEl.classList.add('js-flipped');
     firstCardflipped = true;
     startTimer();
-    flippedCardsCounter ++;
+    moveCounter();
+    flippedCardsCounter++;
     // First - gathering values of clicked cards
 
-      flippedCards.push(flipperContainer);
+    flippedCards.push(flipperContainer);
 
-      if (siblingEl.textContent !== "") {
-        cardValues.push(siblingEl.textContent);
-      } else {
-        // Extracting file name
-        let string = siblingEl.innerHTML;
-        let imgSrc = string.substring(10, string.length - 2);
-        cardValues.push(imgSrc);
+    if (siblingEl.textContent !== "") {
+      cardValues.push(siblingEl.textContent);
+    } else {
+      // Extracting file name
+      let string = siblingEl.innerHTML;
+      let imgSrc = string.substring(10, string.length - 2);
+      cardValues.push(imgSrc);
 
-      }
+    }
 
 
     // If two cards are flipped:
 
-      if (flippedCards.length === 2) {
+    if (flippedCards.length === 2) {
       console.log(flippedCards);
       movesCounter++;
       console.log(movesCounter);
       // getCardId();
       gameboard.removeEventListener('click', rotateCard);
 
-          // checkedCardsId2();
-          if ((checkIfCardsMatch(getCardId()) === true)) {
+      // checkedCardsId2();
+      if ((checkIfCardsMatch(getCardId()) === true)) {
 
-            for(var i = 0; i < flippedCards.length; ++i) {
-              // flippedCards[i].children[0].classList.remove('js-flipped');
-              flippedCards[i].children[0].classList.add('js-match');
-            }
-            matchedCards.push(checkedCardsId);
+        for (var i = 0; i < flippedCards.length; ++i) {
+          // flippedCards[i].children[0].classList.remove('js-flipped');
+          flippedCards[i].children[0].classList.add('js-match');
+        }
+        matchedCards.push(checkedCardsId);
 
-          }
-
-
-
-          setTimeout(function(){
-            for(var i = 0; i < flippedCards.length; ++i) {
-              flippedCards[i].children[0].classList.remove('js-flipped');
-              flippedCards[i].classList.remove('js-flipped');
-            }
-          }, 2000);
-
-          setTimeout(resetArrays, 2100);
       }
-      addEventListenerToDeck();
+
+
+
+      setTimeout(function() {
+        for (var i = 0; i < flippedCards.length; ++i) {
+          flippedCards[i].children[0].classList.remove('js-flipped');
+          flippedCards[i].classList.remove('js-flipped');
+        }
+      }, 2000);
+
+      setTimeout(resetArrays, 2100);
     }
-    console.log(movesCounter);
-    isGameOver();
+    addEventListenerToDeck();
+  }
+  console.log(movesCounter);
+  isGameOver();
 }
 
 
 
-function resetArrays(){
+function resetArrays() {
   flippedCards = [];
   checkedCardsId = [];
   cardValues = [];
 }
 
-function getCardId(){
+function getCardId() {
   console.log(cardValues);
   for (var obj of animals)
     if (checkedCardsId.length < 2) {
@@ -254,7 +257,10 @@ function isGameOver() {
   if (matchedCards.length === 10) {
 
     isGameOverFlag = true;
-      console.log("Game over");
+    congratulations();
+    totalTime = gameTimer.innerHTML;
+    console.log("Game over");
+    console.log(gameTimer);
   }
 }
 
@@ -276,21 +282,86 @@ function checkIfCardsMatch(checkCardId) {
 
 let second = 0;
 let minute = 0;
+let hour = 0;
 let interval;
-function startTimer(){
-    interval = setInterval(function(){
-        // gameTimer.innerHTML = minute+" mins "+second+" secs";
-        gameTimer.innerHTML = `${minute} mins: ${second} secs`;
-        second++;
-        if(second == 60){
-            minute++;
-            second=0;
-        }
-        // if(minute == 60){
-        //     hour++;
-        //     minute = 0;
-        // }
-    }, 1000);
+
+function startTimer() {
+  interval = setInterval(function() {
+    // gameTimer.innerHTML = minute+" mins "+second+" secs";
+    gameTimer.innerHTML = `${minute} mins: ${second} secs`;
+    second++;
+    if (second == 60) {
+      minute++;
+      second = 0;
+    }
+    if(minute == 60){
+        hour++;
+        minute = 0;
+    }
+  }, 1000);
+}
+
+
+// Moves and their influence on stars
+
+function moveCounter() {
+
+  movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
+
+  if (movesCounter > 10 && movesCounter < 14) {
+    for (i = 0; i < stars.length; i++) {
+      if (i > 1) {
+        stars[i].style.visibility = "hidden";
+      }
+    }
+  } else if (movesCounter > 15) {
+    for (i = 0; i < stars.length; i++) {
+      if (i > 0) {
+        stars[i].style.visibility = "hidden";
+      }
+    }
+  }
+}
+
+function congratulations() {
+  if (matchedCards.length == 10) {
+    clearInterval(interval);
+    totalTime = gameTimer.innerHTML;
+
+    // show congratulations modal
+
+
+    // declare star rating variable
+    // var starRating = document.querySelector(".stars");
+
+    //showing move, rating, time on modal
+    document.getElementById("total-moves").innerHTML = movesCounter;
+    // document.getElementById("rating-info").innerHTML = starRating;
+    document.getElementById("total-time").innerHTML = totalTime;
+
+    popup.style.display = 'block';
+
+    //close icon on modal
+    closeModal();
+  };
+}
+
+const popup = document.getElementById('popup-window');
+
+function closeModal() {
+  const close = document.getElementsByClassName('close-modal')[0];
+  close.addEventListener('click', hideCongratulationsModal, false);
+}
+
+closeModal();
+function showCongratulationsModal() {
+    setTimeout(function () {
+        popup.style.display = 'block';
+    }, 900);
+}
+
+function hideCongratulationsModal() {
+    popup.style.display = 'none';
 }
 
 /*TO D0
