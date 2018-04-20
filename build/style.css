@@ -174,9 +174,11 @@ img {
 
 /* matching card styles */
 
-.js-match>div {
+.js-match > div {
   background-color: #c9dba8;
-  visibility: hidden;
+  opacity:1;
+  /* transition:visibility 2s linear 1s,opacity 0.5s linear; */
+
 }
 
 /* POP-UP MODAL */
