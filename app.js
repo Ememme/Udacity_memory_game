@@ -50,6 +50,7 @@ const animals = [{
   }
 ];
 const gameboard = document.getElementById('gameboard');
+let gameStarted = false;
 // Stores 'li' elements of clicked card (parent element to facilitate flipping of a card)
 let flippedCards = [];
 // If the counter === 2, it is not possible to rotate more cards as eventListener function is temporarily removed;
@@ -175,11 +176,17 @@ function rotateCard(evt) {
 
     parentEl.classList.add('js-flipped');
     firstCardflipped = true;
-    startTimer();
+
+    // Start timer when first card is clicked
+    if (!gameStarted) {
+      startTimer();
+      gameStarted = true;
+    }
+
     moveCounter();
     flippedCardsCounter++;
-    // First - gathering values of clicked cards
 
+    //Getting values of clicked cards
     flippedCards.push(flipperContainer);
 
     if (siblingEl.textContent !== "") {
@@ -189,7 +196,6 @@ function rotateCard(evt) {
       let string = siblingEl.innerHTML;
       let imgSrc = string.substring(10, string.length - 2);
       cardValues.push(imgSrc);
-
     }
 
 
@@ -197,34 +203,37 @@ function rotateCard(evt) {
 
     if (flippedCards.length === 2) {
       console.log(flippedCards);
-      movesCounter++;
       console.log(movesCounter);
-      // getCardId();
+      // removing eventListener to prevent flipping more than 2 cards
       gameboard.removeEventListener('click', rotateCard);
+      movesCounter++;
 
-      // checkedCardsId2();
-      if ((checkIfCardsMatch(getCardId()) === true)) {
-
+      // If cards match:
+      if (checkIfCardsMatch(getCardId())) {
         for (var i = 0; i < flippedCards.length; ++i) {
-          // flippedCards[i].children[0].classList.remove('js-flipped');
           flippedCards[i].children[0].classList.add('js-match');
+          flippedCards[i].classList.remove('js-flipped');
+          // setTimeout(addEventListenerToDeck, 2100);
+          // setTimeout(resetArrays, 2100);
         }
         matchedCards.push(checkedCardsId);
-
+      } else {
+        setTimeout(function() {
+          for (var i = 0; i < flippedCards.length; ++i) {
+            flippedCards[i].children[0].classList.remove('js-flipped');
+            flippedCards[i].classList.remove('js-flipped');
+          }
+        }, 2000);
+        // setTimeout(addEventListenerToDeck, 2100);
+        // setTimeout(resetArrays, 2100);
       }
-
-
-
-      setTimeout(function() {
-        for (var i = 0; i < flippedCards.length; ++i) {
-          flippedCards[i].children[0].classList.remove('js-flipped');
-          flippedCards[i].classList.remove('js-flipped');
-        }
-      }, 2000);
-
+      setTimeout(addEventListenerToDeck, 2100);
       setTimeout(resetArrays, 2100);
+
+
+
     }
-    addEventListenerToDeck();
+    // addEventListenerToDeck();
   }
   console.log(movesCounter);
   isGameOver();
@@ -253,16 +262,7 @@ function getCardId() {
   return checkedCardsId;
 }
 
-function isGameOver() {
-  if (matchedCards.length === 10) {
 
-    isGameOverFlag = true;
-    congratulations();
-    totalTime = gameTimer.innerHTML;
-    console.log("Game over");
-    console.log(gameTimer);
-  }
-}
 
 
 
@@ -287,7 +287,6 @@ let interval;
 
 function startTimer() {
   interval = setInterval(function() {
-    // gameTimer.innerHTML = minute+" mins "+second+" secs";
     gameTimer.innerHTML = `${minute} mins: ${second} secs`;
     second++;
     if (second == 60) {
@@ -323,16 +322,21 @@ function moveCounter() {
   }
 }
 
+function isGameOver() {
+  if (matchedCards.length === 10) {
+    isGameOverFlag = true;
+    congratulations();
+    // totalTime = gameTimer.innerHTML;
+    console.log("Game over");
+    console.log(gameTimer);
+  }
+}
+
 function congratulations() {
   if (matchedCards.length == 10) {
     clearInterval(interval);
     totalTime = gameTimer.innerHTML;
 
-    // show congratulations modal
-
-
-    // declare star rating variable
-    // var starRating = document.querySelector(".stars");
 
     //showing move, rating, time on modal
     document.getElementById("total-moves").innerHTML = movesCounter;
@@ -343,7 +347,7 @@ function congratulations() {
 
     //close icon on modal
     closeModal();
-  };
+  }
 }
 
 const popup = document.getElementById('popup-window');
