@@ -1,3 +1,4 @@
+// Declaration of all variables
 const animals = [{
     id: 1,
     image: 'assets/svg/001-lamb.svg',
@@ -68,14 +69,34 @@ let checkedCardsId = [];
 // Flag for gameboard
 let isGameOverFlag = false;
 // timer
-let gameTimer = document.querySelector(".timer");
-const stars = document.querySelectorAll(".fa-star");
-let movesDisplay = document.querySelector(".moves");
-
+let gameTimer = document.querySelector('.timer');
+// Stars used for rating
+const stars = document.querySelectorAll('.fa-star');
+// Display player's moves count
+let movesDisplay = document.querySelector('.moves');
+// Collection of all reload buttons
+const reloadButtons = document.getElementsByClassName('reload-button');
 
 console.log(gameTimer);
 console.log(movesDisplay);
 
+
+
+function startGame() {
+  hideCongratulationsModal();
+  matchedCards = [];
+  gameTimer.innerHTML = "00:00";
+  movesCounter = 0;
+  movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
+  gameStarted = false;
+  resetTimer();
+  // reloadStars();
+  createBoard();
+  addEventListenerToDeck();
+  addEventListenersToRestartButtons();
+  closeModal();
+
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -92,7 +113,8 @@ function shuffle(array) {
 
   return array;
 }
-// As vocabulary list is an array of objects, this function creates a shuffled array of both images and translations.
+/* Vocabulary list is an array of objects {id: integer, image: image, translation: string},
+this function creates a shuffled array of both images and translations.*/
 function createShuffledArray() {
   let properties = [];
   for (var i = 0; i < animals.length; i++) {
@@ -148,18 +170,20 @@ function createCardBack() {
 
 
 function createBoard() {
+  // clears gameboard before restart
+  gameboard.innerHTML = '';
   createCardFront();
   createCardBack();
 }
 
-createBoard();
+// createBoard();
 
 
 function addEventListenerToDeck() {
   gameboard.addEventListener('click', rotateCard);
 }
 
-addEventListenerToDeck();
+// addEventListenerToDeck();
 
 
 
@@ -213,8 +237,6 @@ function rotateCard(evt) {
         for (var i = 0; i < flippedCards.length; ++i) {
           flippedCards[i].children[0].classList.add('js-match');
           flippedCards[i].classList.remove('js-flipped');
-          // setTimeout(addEventListenerToDeck, 2100);
-          // setTimeout(resetArrays, 2100);
         }
         matchedCards.push(checkedCardsId);
       } else {
@@ -223,17 +245,14 @@ function rotateCard(evt) {
             flippedCards[i].children[0].classList.remove('js-flipped');
             flippedCards[i].classList.remove('js-flipped');
           }
-        }, 2000);
-        // setTimeout(addEventListenerToDeck, 2100);
-        // setTimeout(resetArrays, 2100);
+        }, 1800);
       }
-      setTimeout(addEventListenerToDeck, 2100);
-      setTimeout(resetArrays, 2100);
+      setTimeout(addEventListenerToDeck, 1850);
+      setTimeout(resetArrays, 1850);
 
 
 
     }
-    // addEventListenerToDeck();
   }
   console.log(movesCounter);
   isGameOver();
@@ -300,6 +319,12 @@ function startTimer() {
   }, 1000);
 }
 
+function resetTimer() {
+    clearInterval(interval);
+    second = 0;
+    minute = 0;
+}
+
 
 // Moves and their influence on stars
 
@@ -326,7 +351,6 @@ function isGameOver() {
   if (matchedCards.length === 10) {
     isGameOverFlag = true;
     congratulations();
-    // totalTime = gameTimer.innerHTML;
     console.log("Game over");
     console.log(gameTimer);
   }
@@ -336,7 +360,6 @@ function congratulations() {
   if (matchedCards.length == 10) {
     clearInterval(interval);
     totalTime = gameTimer.innerHTML;
-
 
     //showing move, rating, time on modal
     document.getElementById("total-moves").innerHTML = movesCounter;
@@ -351,23 +374,37 @@ function congratulations() {
 }
 
 const popup = document.getElementById('popup-window');
-
+// Closing modal
 function closeModal() {
   const close = document.getElementsByClassName('close-modal')[0];
   close.addEventListener('click', hideCongratulationsModal, false);
 }
 
-closeModal();
-function showCongratulationsModal() {
-    setTimeout(function () {
-        popup.style.display = 'block';
-    }, 900);
-}
+// closeModal();
 
 function hideCongratulationsModal() {
     popup.style.display = 'none';
 }
 
+
+function clicked() {
+  console.log('I was clicked');
+}
+
+function addEventListenersToRestartButtons() {
+  for(var i = 0; i < reloadButtons.length; i++) {
+      reloadButtons[i].addEventListener('click', startGame);
+    }
+}
+
+
+// function reloadStars() {
+//   for (i = 0; i < stars.length; i++) {
+//       stars[i].style.visibility = initial;
+//     }
+// }
+
+startGame();
 /*TO D0
 // 1. Logika - isGameOver
 // TIMER
