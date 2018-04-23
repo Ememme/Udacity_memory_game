@@ -5,14 +5,12 @@ html {
   box-sizing: border-box;
 }
 
-*, *::before,
-*::after {
+*, *::before, *::after {
   -webkit-box-sizing: inherit;
   box-sizing: inherit;
 }
 
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -24,7 +22,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
 }
 
 ul {
@@ -36,7 +33,6 @@ h1 {
   color: #fff;
   text-align: center;
 }
-
 
 /* SCORE PANEL with TIMER and STAR RATING */
 
@@ -55,10 +51,9 @@ h1 {
 .score-panel .rating li {
   display: inline-block;
   padding: 10px;
-
 }
 
-.rating .fa-star{
+.rating .fa-star {
   color: #ffe15a;
 }
 
@@ -66,8 +61,7 @@ h1 {
 
 .deck {
   margin: 0 auto;
-  width: 85vw;
-  /* width: 640px; */
+  /* width: 85vw; */
   max-width: 640px;
   min-height: 640px;
   background: rgba(58, 210, 224, 0.7);
@@ -175,11 +169,10 @@ img {
 
 /* matching card styles */
 
-.js-match > div {
+.js-match>div {
   background-color: #c9dba8;
-  opacity:1;
+  opacity: 1;
   /* transition:visibility 2s linear 1s,opacity 0.5s linear; */
-
 }
 
 /* POP-UP MODAL */
@@ -207,7 +200,7 @@ img {
 }
 
 .close-modal:hover {
-  color: #c9dba8;
+  color: #ffe15a;
 }
 
 .modal-content {
@@ -224,9 +217,12 @@ img {
   margin-bottom: 15px;
   /* padding: 12px; */
   width: 150px;
-  height: 30px;
+  height: 35px;
   background-color: rgba(58, 210, 224, 0.7);
   border-radius: 40px;
+  color: #fff;
+  font-weight: bolder;
+  font-size: 14px;
 }
 
 .reload-button:hover {
@@ -235,14 +231,8 @@ img {
 
 .reload-button:active {
   background-color: #1890a6;
-  -webkit-box-shadow: 0 1px #ddd;
-  box-shadow: 0 1px #ddd;
   -webkit-transform: translateY(4px);
   transform: translateY(4px);
-}
-
-.modal-content span {
-  margin-left: 30px;
 }
 
 .modal-content .fa-star {
@@ -250,17 +240,20 @@ img {
   font-size: 1em;
 }
 
-
+#star-rating-info {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  list-style-type: none;
+}
 
 h3 {
   color: rgba(58, 210, 224, 0.7);
 }
 
+footer {}
 
-footer {
-}
-
-footer > p {
+footer>p {
   font-size: 12px;
   text-align: center;
   color: white;
