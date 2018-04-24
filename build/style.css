@@ -272,7 +272,7 @@ footer a {
     width: 100%;
     height: 100%;
     background-image: none;
-    background-color: rgba(58, 103, 109, 0.7);
+    background-color: rgba(58, 210, 224, 0.7);
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
   .deck {
@@ -356,16 +356,18 @@ footer a {
   .js-card-wrapper,
   .js-front,
   .js-back {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 
   .js-front img {
     margin-top: 0px;
     border: 0;
+    width: 80px;
+    height: 80px;
   }
   .js-back {
-    top: -100px;
+    top: -80px;
   }
 
   .modal-content {
@@ -386,5 +388,5 @@ footer a {
     right: 20px;
   }
 
-  
+
 }
