@@ -85,12 +85,12 @@ console.log(movesDisplay);
 function startGame() {
   hideCongratulationsModal();
   matchedCards = [];
-  gameTimer.innerHTML = "00:00";
+  gameTimer.innerHTML = `${minute} mins: ${second} secs`;
   movesCounter = 0;
   movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
   gameStarted = false;
   resetTimer();
-  // reloadStars();
+  reloadStars();
   createBoard();
   addEventListenerToDeck();
   addEventListenersToRestartButtons();
@@ -361,9 +361,10 @@ function congratulations() {
     clearInterval(interval);
     totalTime = gameTimer.innerHTML;
 
+    let starRating = document.querySelector(".rating").innerHTML;
     //showing move, rating, time on modal
     document.getElementById("total-moves").innerHTML = movesCounter;
-    // document.getElementById("rating-info").innerHTML = starRating;
+    document.getElementById("star-rating-info").innerHTML = starRating;
     document.getElementById("total-time").innerHTML = totalTime;
 
     popup.style.display = 'block';
@@ -380,16 +381,11 @@ function closeModal() {
   close.addEventListener('click', hideCongratulationsModal, false);
 }
 
-// closeModal();
 
 function hideCongratulationsModal() {
     popup.style.display = 'none';
 }
 
-
-function clicked() {
-  console.log('I was clicked');
-}
 
 function addEventListenersToRestartButtons() {
   for(var i = 0; i < reloadButtons.length; i++) {
@@ -398,11 +394,11 @@ function addEventListenersToRestartButtons() {
 }
 
 
-// function reloadStars() {
-//   for (i = 0; i < stars.length; i++) {
-//       stars[i].style.visibility = initial;
-//     }
-// }
+function reloadStars() {
+  for (i = 0; i < stars.length; i++) {
+      stars[i].style.visibility = "visible";
+    }
+}
 
 startGame();
 /*TO D0
