@@ -172,6 +172,8 @@ img {
 .js-match>div {
   background-color: #c9dba8;
   opacity: 1;
+  /*This disables click on card  */
+  pointer-events: none;
   /* transition:visibility 2s linear 1s,opacity 0.5s linear; */
 }
 
