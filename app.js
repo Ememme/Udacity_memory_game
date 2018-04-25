@@ -68,7 +68,7 @@ let cardValues = [];
 let checkedCardsId = [];
 // Flag for gameboard
 let isGameOverFlag = false;
-// timer
+// Timer
 let gameTimer = document.querySelector('.timer');
 // Stars used for rating
 const stars = document.querySelectorAll('.fa-star');
@@ -77,20 +77,9 @@ let movesDisplay = document.querySelector('.moves');
 // Collection of all reload buttons
 const reloadButtons = document.getElementsByClassName('reload-button');
 
-console.log(gameTimer);
-console.log(movesDisplay);
-
-
 
 function startGame() {
-  hideCongratulationsModal();
-  matchedCards = [];
-  gameTimer.innerHTML = `${minute} mins: ${second} secs`;
-  movesCounter = 0;
-  movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
-  gameStarted = false;
-  resetTimer();
-  reloadStars();
+  resetGameSettings();
   createBoard();
   addEventListenerToDeck();
   addEventListenersToRestartButtons();
@@ -124,7 +113,6 @@ function createShuffledArray() {
     properties.push(translations);
   }
   const shuffledArray = shuffle(properties);
-  console.table(shuffledArray);
   return shuffledArray;
 }
 
@@ -176,20 +164,11 @@ function createBoard() {
   createCardBack();
 }
 
-// createBoard();
-
-
 function addEventListenerToDeck() {
   gameboard.addEventListener('click', rotateCard);
 }
 
-// addEventListenerToDeck();
-
-
-
-
 function rotateCard(evt) {
-  // debugger;
   if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')) { // ← verifies target is div.js-back
 
     let clickedCard = event.target;
@@ -259,7 +238,6 @@ function rotateCard(evt) {
 }
 
 
-
 function resetArrays() {
   flippedCards = [];
   checkedCardsId = [];
@@ -267,7 +245,6 @@ function resetArrays() {
 }
 
 function getCardId() {
-  console.log(cardValues);
   for (var obj of animals)
     if (checkedCardsId.length < 2) {
       if (cardValues.includes(obj.image)) {
@@ -281,15 +258,8 @@ function getCardId() {
   return checkedCardsId;
 }
 
-
-
-
-
-
 function checkIfCardsMatch(checkCardId) {
-  console.log(checkedCardsId);
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
-    // matchedCards.push(cardValues);
     return true;
   } else {
     return false;
@@ -351,8 +321,6 @@ function isGameOver() {
   if (matchedCards.length === 10) {
     isGameOverFlag = true;
     congratulations();
-    console.log("Game over");
-    console.log(gameTimer);
   }
 }
 
@@ -369,7 +337,6 @@ function congratulations() {
 
     popup.style.display = 'block';
 
-    //close icon on modal
     closeModal();
   }
 }
@@ -400,25 +367,15 @@ function reloadStars() {
     }
 }
 
+function resetGameSettings() {
+  hideCongratulationsModal();
+  matchedCards = [];
+  gameTimer.innerHTML = `${minute} mins: ${second} secs`;
+  movesCounter = 0;
+  movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
+  gameStarted = false;
+  resetTimer();
+  reloadStars();
+}
+
 startGame();
-/*TO D0
-// 1. Logika - isGameOver
-// TIMER
-// Gwiazdki od ilosci ruchow
-
-
-
-
-
-1. styl do ratingu
-2. helper - lista slowek */
-// /*
-//  * set up the event listener for a card. If a card is clicked:
-//  *  - display the card's symbol (put this functionality in another function that you call from this one)
-//  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
-//  *  - if the list already has another card, check to see if the two cards match
-//  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
-//  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-//  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
-//  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
-//  */
