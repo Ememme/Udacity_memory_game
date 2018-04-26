@@ -4,11 +4,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta author="Magda Mieczynska">
   <link rel="stylesheet" href="build/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
   <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
   <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
   <title>Memory Game</title>
@@ -28,8 +28,14 @@
         <li><i class="fa fa-star"></i></li>
       </ul>
       <span class="moves">0</span>
-      <span class="restart"><i class="fa fa-repeat reload-button"></i></span>
       <span class="timer">00 mins:00 secs</span>
+      <div class="restart">
+        <a class="btn restart-button" href="#"><i class="fa fa-repeat"></i></a>
+        <!-- <span class="restart"><i class="fa fa-repeat score-button"></i></span>
+        <span class="help"><i class="fa fa-lightbulb-o score-button"></i></span> -->
+        <a class="btn vocab-bulb" href="#"><i class="fa fa-lightbulb-o"></i></a>
+      </div>
+
     </section>
 
     <!--GAMEBOARD-->
@@ -38,6 +44,18 @@
 
 
     </ul>
+
+    <!--VOCABULARY LIST POPUP-->
+    <div id="vocabulary-popup-window">
+      <div class="modal-content">
+        <h3>Vocabulary list</h3>
+        <!-- <a class="close-modal" href="#" >×</a> -->
+        <ul class="translations">
+          <li></li>
+        </ul>
+        <button id="vocab-btn" class="reload-button">Close</button>
+      </div>
+    </div>
 
     <!--CONGRATULATIONS POPUP-->
     <div id="popup-window">
@@ -48,7 +66,7 @@
         <p>Your rating: <span id="star-rating-info"></span></p>
         <p>Your result: <span id="total-moves"></span> moves </p>
         <p>in <span id="total-time"> </span> </p>
-        <button id="modal-btn" class="reload-button">Play again</button>
+        <button id="modal-btn" class="reload-button restart-button">Play again</button>
       </div>
     </div>
 
