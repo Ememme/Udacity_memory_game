@@ -23,9 +23,8 @@ After you close the list, the proper game begins:
 - The player flips one card over to reveal animal icon/name and then turns over a second card, trying to find the match.
 - Two flipped cards are counted as one move; timer starts with the first card flipped.
 - If cards don’t match, they are flipped back.
-- If cards match, animal icon and name change background to green and remain visible.
+- If cards match, animal icon and name change background to green and both cards remain visible.
 - Your score (moves, time and rating) is being displayed in the score panel.
-- Timer starts when the first card is flipped.
 - Reload icon restarts the game, bulb icon shows vocabulary list.
 - The player wins when all 10 cards are matched.
 Once the game is finished, a popup with the player's result is shown.
