@@ -2,55 +2,71 @@
 const animals = [{
     id: 1,
     image: 'assets/svg/001-lamb.svg',
-    translation: 'cordeiro'
+    translationPT: 'cordeiro',
+    translationEN: 'lamb'
   },
   {
     id: 2,
     image: 'assets/svg/002-fish.svg',
-    translation: 'peixe'
+    translationPT: 'peixe',
+    translationEN: 'fish'
   },
   {
     id: 3,
     image: 'assets/svg/003-mouse.svg',
-    translation: 'rato'
+    translationPT: 'rato',
+    translationEN: 'mouse'
+
   },
   {
     id: 4,
     image: 'assets/svg/004-bird.svg',
-    translation: 'pássaro'
+    translationPT: 'pássaro',
+    translationEN: 'bird'
   },
   {
     id: 5,
     image: 'assets/svg/005-pig.svg',
-    translation: 'porco'
+    translationPT: 'porco',
+    translationEN: 'pig'
   },
   {
     id: 6,
     image: 'assets/svg/006-cow.svg',
-    translation: 'vaca'
+    translationPT: 'vaca',
+    translationEN: 'cow'
   },
   {
     id: 7,
     image: 'assets/svg/007-horse.svg',
-    translation: 'cavalo'
+    translationPT: 'cavalo',
+    translationEN: 'horse'
   },
   {
     id: 8,
     image: 'assets/svg/008-cat.svg',
-    translation: 'gato'
+    translationPT: 'gato',
+    translationEN: 'cat'
   },
   {
     id: 9,
     image: 'assets/svg/009-dog.svg',
-    translation: 'cão'
+    translationPT: 'cão',
+    translationEN: 'dog'
   },
   {
     id: 10,
     image: 'assets/svg/010-chicken.svg',
-    translation: 'frango'
+    translationPT: 'frango',
+    translationEN: 'chicken'
   }
 ];
 const gameboard = document.getElementById('gameboard');
+// Popup holding a list of words to be learned (ENG - PT)
+const vocabPopup = document.getElementById('vocabulary-popup-window');
+const vocabularyList = document.getElementsByClassName('translations');
+
+console.log(vocabularyList);
 let gameStarted = false;
 // Stores 'li' elements of clicked card (parent element to facilitate flipping of a card)
 let flippedCards = [];
@@ -75,7 +91,7 @@ const stars = document.querySelectorAll('.fa-star');
 // Display player's moves count
 let movesDisplay = document.querySelector('.moves');
 // Collection of all reload buttons
-const reloadButtons = document.getElementsByClassName('reload-button');
+const reloadButtons = document.getElementsByClassName('restart-button');
 
 
 function startGame() {
@@ -102,15 +118,15 @@ function shuffle(array) {
 
   return array;
 }
-/* Vocabulary list is an array of objects {id: integer, image: image, translation: string},
-this function creates a shuffled array of both images and translations.*/
+/* Vocabulary list is an array of objects {id: integer, image: image, translationPT: string},
+this function creates a shuffled array of both images and translationPTs.*/
 function createShuffledArray() {
   let properties = [];
   for (var i = 0; i < animals.length; i++) {
     var images = animals[i].image;
     properties.push(images);
-    var translations = animals[i].translation;
-    properties.push(translations);
+    var translationPTs = animals[i].translationPT;
+    properties.push(translationPTs);
   }
   const shuffledArray = shuffle(properties);
   return shuffledArray;
@@ -125,7 +141,7 @@ function createCardFront() {
     const cardWrapper = document.createElement('div');
     const contentContainer = document.createElement('div');
     const img = document.createElement('img');
-    const translation = document.createElement('p');
+    const translationPT = document.createElement('p');
 
 
     gameboard.appendChild(cardContainer);
@@ -140,8 +156,8 @@ function createCardFront() {
       contentContainer.appendChild(img);
       img.setAttribute('src', property);
     } else {
-      contentContainer.appendChild(translation);
-      translation.textContent = property;
+      contentContainer.appendChild(translationPT);
+      translationPT.textContent = property;
     }
   });
 }
@@ -251,13 +267,12 @@ function getCardId() {
         checkedCardsId.push(obj.id);
       }
 
-      if (cardValues.includes(obj.translation)) {
+      if (cardValues.includes(obj.translationPT)) {
         checkedCardsId.push(obj.id);
       }
     }
   return checkedCardsId;
 }
-
 function checkIfCardsMatch(checkCardId) {
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
     return true;
@@ -356,6 +371,7 @@ function hideCongratulationsModal() {
 
 function addEventListenersToRestartButtons() {
   for(var i = 0; i < reloadButtons.length; i++) {
+    console.log(reloadButtons);
       reloadButtons[i].addEventListener('click', startGame);
     }
 }
@@ -374,8 +390,50 @@ function resetGameSettings() {
   movesCounter = 0;
   movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
   gameStarted = false;
-  resetTimer();
   reloadStars();
+  resetTimer();
 }
+// Vocabulary list:
+function vocabularyPairs (){
+  animals.forEach(function(animal) {
+      let translationPair = document.createElement('li');
+      translationPair.innerHTML = `${animal.translationEN}: ${animal.translationPT}`;
+      vocabularyList[0].appendChild(translationPair);
+  });
+}
+
+function addEventListenerToVocabList(){
+  const vocabButton = document.getElementById('vocab-btn');
+  console.log(vocabButton);
+  vocabButton.addEventListener('click', hideVocabList);
+
+}
+
+addEventListenerToVocabList();
+// const vocabPopup = document.getElementById('vocabulary-popup-window');
+function hideVocabList() {
+  const vocabPopup = document.getElementById('vocabulary-popup-window');
+
+  console.log("I was clicked");
+  vocabPopup.style.visibility = 'hidden';
+}
+
+function showVocabList(){
+
+  vocabPopup.style.visibility = 'visible';
+}
+
+// const vocabBulb = document.getElementsByClassName('vocab-bulb');
+// console.log(vocabBulb);
+
+function addEventListenerToVocabBulb(){
+  const vocabBulb = document.getElementsByClassName('vocab-bulb');
+  console.log(vocabBulb);
+  vocabBulb[0].addEventListener('click', showVocabList);
+}
+
+addEventListenerToVocabBulb();
+
+vocabularyPairs();
 
 startGame();
