@@ -91,6 +91,22 @@ h1 {
   color: rgb(255,225,90);
 }
 
+/* .restart .fa-lightbulb-o {
+  padding-right: 25px; */
+  /* font-size: 40px; */
+/* } */
+
+.btn {
+  background-color: rgb(255,225,90);
+  color: rgb(255, 255, 255);
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  border-radius: 50%;
+  padding-top: 5px;
+  margin: 20px;
+}
+
 /*GAMEBOARD*/
 
 .deck {
@@ -213,7 +229,7 @@ img {
 }
 
 /* POP-UP MODAL */
-
+/* #vocabulary-popup-window, */
 #popup-window {
   display: none;
   z-index: 1;
@@ -299,6 +315,21 @@ footer a {
   text-transform: uppercase;
   font-weight: bolder;
   color: rgb(58,103,109);
+}
+
+/*VOCABULARY POP-UP  */
+
+div#vocabulary-popup-window {
+
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(58, 103, 109, 0.9);
+  color: rgb(23,94,109);
+
 }
 
 /* Media queries*/
