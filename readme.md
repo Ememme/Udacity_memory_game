@@ -14,7 +14,10 @@ The app is built with the following:
 - Animal icons form [Flaticon](www.flaticon.com)
 
 ## **How to play**
-You can play here: [link](https://ememme.github.io/Udacity_memory_game/).
+1. Download or clone the project
+2. Open the index.html file in your browser
+
+Alternatively, you can play here: [link](https://ememme.github.io/Udacity_memory_game/).
 
 ### **Game rules**
 This game is desiged to help you learn basic animal vocabulary in Portugese.
