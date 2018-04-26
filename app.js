@@ -66,7 +66,6 @@ const gameboard = document.getElementById('gameboard');
 const vocabPopup = document.getElementById('vocabulary-popup-window');
 const vocabularyList = document.getElementsByClassName('translations');
 
-console.log(vocabularyList);
 let gameStarted = false;
 // Stores 'li' elements of clicked card (parent element to facilitate flipping of a card)
 let flippedCards = [];
@@ -371,8 +370,7 @@ function hideCongratulationsModal() {
 
 function addEventListenersToRestartButtons() {
   for(var i = 0; i < reloadButtons.length; i++) {
-    console.log(reloadButtons);
-      reloadButtons[i].addEventListener('click', startGame);
+      reloadButtons[i].addEventListener('mouseup', startGame);
     }
 }
 
@@ -404,17 +402,14 @@ function vocabularyPairs (){
 
 function addEventListenerToVocabList(){
   const vocabButton = document.getElementById('vocab-btn');
-  console.log(vocabButton);
   vocabButton.addEventListener('click', hideVocabList);
 
 }
 
 addEventListenerToVocabList();
-// const vocabPopup = document.getElementById('vocabulary-popup-window');
+
 function hideVocabList() {
   const vocabPopup = document.getElementById('vocabulary-popup-window');
-
-  console.log("I was clicked");
   vocabPopup.style.visibility = 'hidden';
 }
 
@@ -423,12 +418,9 @@ function showVocabList(){
   vocabPopup.style.visibility = 'visible';
 }
 
-// const vocabBulb = document.getElementsByClassName('vocab-bulb');
-// console.log(vocabBulb);
 
 function addEventListenerToVocabBulb(){
   const vocabBulb = document.getElementsByClassName('vocab-bulb');
-  console.log(vocabBulb);
   vocabBulb[0].addEventListener('click', showVocabList);
 }
 
