@@ -370,7 +370,7 @@ function hideCongratulationsModal() {
 
 function addEventListenersToRestartButtons() {
   for(var i = 0; i < reloadButtons.length; i++) {
-      reloadButtons[i].addEventListener('mouseup', startGame);
+      reloadButtons[i].addEventListener('click', startGame);
     }
 }
 
@@ -384,12 +384,13 @@ function reloadStars() {
 function resetGameSettings() {
   hideCongratulationsModal();
   matchedCards = [];
-  gameTimer.innerHTML = `${minute} mins: ${second} secs`;
   movesCounter = 0;
   movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
   gameStarted = false;
   reloadStars();
   resetTimer();
+  gameTimer.innerHTML = `${minute} mins: ${second} secs`;
+
 }
 // Vocabulary list:
 function vocabularyPairs (){
