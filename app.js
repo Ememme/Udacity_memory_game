@@ -73,7 +73,7 @@ let flippedCards = [];
 let flippedCardsCounter = 0;
 // used for initalizing timer
 let firstCardflipped = false;
-// // How many pairs of cards were flipped before completing game
+// How many pairs of cards were flipped before completing game
 let movesCounter = 0;
 // Stores matching cards
 let matchedCards = [];
@@ -103,6 +103,11 @@ function startGame() {
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+/**
+* @description Shuffles array with Fisher-Yates algorithm
+* @param {array}
+* @returns {array} Shuffled array
+*/
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -119,6 +124,10 @@ function shuffle(array) {
 }
 /* Vocabulary list is an array of objects {id: integer, image: image, translationPT: string},
 this function creates a shuffled array of both images and translationPTs.*/
+/**
+* @description Shuffles properties of animal object(image and translationPT)
+* @returns {array} Shuffled array of properties
+*/
 function createShuffledArray() {
   let properties = [];
   for (var i = 0; i < animals.length; i++) {
@@ -130,7 +139,10 @@ function createShuffledArray() {
   const shuffledArray = shuffle(properties);
   return shuffledArray;
 }
-
+/**
+* @description Creates DOM elements for card faces
+* @returns 20 li elements with children
+*/
 
 function createCardFront() {
   const shuffledArray = createShuffledArray();
@@ -160,7 +172,10 @@ function createCardFront() {
     }
   });
 }
-
+/**
+* @description Creates DOM elements for card back and appends to card front
+* @returns 20 li elements with children
+*/
 function createCardBack() {
   const cardFronts = document.getElementsByClassName('js-front');
 
@@ -171,6 +186,9 @@ function createCardBack() {
   }
 }
 
+/**
+* @description Creates gameboard
+*/
 
 function createBoard() {
   // clears gameboard before restart
@@ -178,11 +196,17 @@ function createBoard() {
   createCardFront();
   createCardBack();
 }
-
+/**
+* @description listens for clicks on gameboard
+*/
 function addEventListenerToDeck() {
   gameboard.addEventListener('click', rotateCard);
 }
-
+/**
+* @description With a first clicked card initializes timer, starts counting moves,
+when two cards are clicked checks if they match
+* @param evt
+*/
 function rotateCard(evt) {
   if ((evt.target.nodeName === 'DIV') && (evt.target.className === 'js-back')) { // ← verifies target is div.js-back
 
@@ -220,8 +244,6 @@ function rotateCard(evt) {
     // If two cards are flipped:
 
     if (flippedCards.length === 2) {
-      console.log(flippedCards);
-      console.log(movesCounter);
       // removing eventListener to prevent flipping more than 2 cards
       gameboard.removeEventListener('click', rotateCard);
       movesCounter++;
@@ -248,17 +270,22 @@ function rotateCard(evt) {
 
     }
   }
-  console.log(movesCounter);
   isGameOver();
 }
-
+/**
+* @description resets arrays used in rotateCard();
+*
+*/
 
 function resetArrays() {
   flippedCards = [];
   checkedCardsId = [];
   cardValues = [];
 }
-
+/**
+* @description finds ID of animal based on clicked card image/text
+*@returns {array} of checked Ids
+*/
 function getCardId() {
   for (var obj of animals)
     if (checkedCardsId.length < 2) {
@@ -272,6 +299,11 @@ function getCardId() {
     }
   return checkedCardsId;
 }
+/**
+* @description check if IDs in checkCardId array belong to the same animals
+* @param {array} checkCardId
+*@returns {boolean} of checked Ids
+*/
 function checkIfCardsMatch(checkCardId) {
   if ((checkedCardsId.length === 2) && (checkedCardsId[0] === checkedCardsId[1])) {
     return true;
@@ -288,6 +320,10 @@ let minute = 0;
 let hour = 0;
 let interval;
 
+/**
+* @description creates timer updated every 1 sec
+*
+*/
 function startTimer() {
   interval = setInterval(function() {
     gameTimer.innerHTML = `${minute} mins: ${second} secs`;
@@ -302,7 +338,10 @@ function startTimer() {
     }
   }, 1000);
 }
-
+/**
+* @description resets timer to initial value 0 min 0 sec
+*
+*/
 function resetTimer() {
     clearInterval(interval);
     second = 0;
@@ -311,7 +350,10 @@ function resetTimer() {
 
 
 // Moves and their influence on stars
-
+/**
+* @description display the number of moves the player has made. Dependent on the moves count, star rating is updated.
+*
+*/
 function moveCounter() {
 
   movesDisplay.innerHTML = `Your moves: ${movesCounter}`;
@@ -331,13 +373,20 @@ function moveCounter() {
   }
 }
 
+/**
+* @description if a player has found a match for all 20 cards;
+the condition for stoping a game is met and a congratulation pop up is called.
+*
+*/
 function isGameOver() {
   if (matchedCards.length === 10) {
     isGameOverFlag = true;
     congratulations();
   }
 }
-
+/**
+* @description timer is stopped, info about player's result is gathered(time, moves, stars) and displayed in the popup.
+*/
 function congratulations() {
   if (matchedCards.length == 10) {
     clearInterval(interval);
@@ -356,31 +405,47 @@ function congratulations() {
 }
 
 const popup = document.getElementById('popup-window');
+
 // Closing modal
+/**
+* @description closes popup modal if x button is clicked
+*/
+
 function closeModal() {
   const close = document.getElementsByClassName('close-modal')[0];
   close.addEventListener('click', hideCongratulationsModal, false);
 }
 
+/**
+* @description congratulations popup display is hidden
+*/
 
 function hideCongratulationsModal() {
     popup.style.display = 'none';
 }
 
-
+/**
+* @description listens for clicks on 2 reload buttons (1 in popup, 1 in scorepanel)
+*/
 function addEventListenersToRestartButtons() {
   for(var i = 0; i < reloadButtons.length; i++) {
       reloadButtons[i].addEventListener('click', startGame);
     }
 }
 
-
+/**
+* @description makes stars visible again
+*
+*/
 function reloadStars() {
   for (i = 0; i < stars.length; i++) {
       stars[i].style.visibility = "visible";
     }
 }
 
+/**
+* @description resets results of previous games allowing for a new game to start
+*/
 function resetGameSettings() {
   hideCongratulationsModal();
   matchedCards = [];
@@ -393,6 +458,9 @@ function resetGameSettings() {
 
 }
 // Vocabulary list:
+/**
+* @description creates li elements holding info about animal name in English and Portugese
+*/
 function vocabularyPairs (){
   animals.forEach(function(animal) {
       let translationPair = document.createElement('li');
@@ -400,7 +468,9 @@ function vocabularyPairs (){
       vocabularyList[0].appendChild(translationPair);
   });
 }
-
+/**
+* @description listens for click on the bulb icon in the score panel
+*/
 function addEventListenerToVocabList(){
   const vocabButton = document.getElementById('vocab-btn');
   vocabButton.addEventListener('click', hideVocabList);
@@ -409,16 +479,24 @@ function addEventListenerToVocabList(){
 
 addEventListenerToVocabList();
 
+/**
+* @description if bulb icon is clicked, popup with vocabulary list is hidden
+*/
 function hideVocabList() {
   const vocabPopup = document.getElementById('vocabulary-popup-window');
   vocabPopup.style.visibility = 'hidden';
 }
-
+/**
+* @description if bulb icon is clicked, popup with vocabulary list is shown
+*/
 function showVocabList(){
 
   vocabPopup.style.visibility = 'visible';
 }
 
+/**
+* @description listens for click on the bulb icon
+*/
 
 function addEventListenerToVocabBulb(){
   const vocabBulb = document.getElementsByClassName('vocab-bulb');
@@ -426,7 +504,6 @@ function addEventListenerToVocabBulb(){
 }
 
 addEventListenerToVocabBulb();
-
 vocabularyPairs();
 
 startGame();
